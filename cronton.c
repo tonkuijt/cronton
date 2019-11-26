@@ -32,7 +32,7 @@ while ( a == a )
 	int trigger_minute=43;
 
 	if (( hour == trigger_hour ) & ( minute == trigger_minute)){
-		system("/home/ton/leetscript.sh");
+		system("/usr/bin/logger CRONTON HAS RAN");
 	} 
   delay(60);
   }
