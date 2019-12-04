@@ -25,11 +25,12 @@ const char * config()
 
 void delay(int number_of_seconds) 
 { 
-	int milli_seconds = 1000 * number_of_seconds; 
+	int milli_seconds = CLOCKS_PER_SEC * number_of_seconds; 
+	printf("Counting to %d...\n", milli_seconds);
 	clock_t start_time = clock(); 
-	while (clock() < start_time + milli_seconds) 
+	while (clock() < start_time + milli_seconds)
         ; 
-} 
+}
 
 int main ()
 {
@@ -38,27 +39,28 @@ char filename[256];
 sprintf(filename,"%s", config());
 char line[256];
 int linenum=0;
+int set_hour;
+int set_minute;
 FILE *file;
 file=fopen(filename, "r");
 
 int a = 1;
 
 /* Finding and using the config line */
-
+char time[256], command[256];
 while(fgets(line, 256, file) != NULL)
-{
-        char time[256], command[256];
-
+	{
         linenum++;
-        if(line[0] == '#') continue;
+        if(line[0] == '#')  continue; 
 
-                if(sscanf(line, "%s %s", time,  command) != 2)
+                if(sscanf(line, "%s %s", time, command) != 2)
                         {
                         fprintf(stderr, "Syntax error, line %d\n", linenum);
                         continue;
                         }
-                char * hour = strtok(time, ":");
-                char * minute = strtok(NULL, ":");
+		printf("Printing stuff %s %s\n", time, command);
+                set_hour = atoi(strtok(time, ":"));
+                set_minute = atoi(strtok(NULL, ":"));
         }
 
 /* If all is found, run the rest please */
@@ -72,14 +74,14 @@ while ( a == a )
 	now_tm = localtime(&now);
 	int hour = now_tm->tm_hour;
 	int minute = now_tm->tm_min;
-	int trigger_hour=hour;
-	int trigger_minute=minute;
-
+	int trigger_hour=set_hour;
+	int trigger_minute=set_minute;
+	printf("Time is now %d:%d and set to %d:%d\n",hour, minute, trigger_hour, trigger_minute);
 	if (( hour == trigger_hour ) & ( minute == trigger_minute)){
-		system("/usr/bin/logger CRONTON HAS RAN");
+		system("%s", command);
+		printf("Awwww jisssssss, we have ran!\n");
 	} 
-	printf("Found something (%s) to do at %d:%d, waiting for it...\n", command, trigger_hour, trigger_minute);
-  delay(600);
+  delay(60);
   }
 }
 
