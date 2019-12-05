@@ -35,7 +35,7 @@ int main ()
 
 
 /* First, init ALL the variables! */
-int HOURS_WASTED_HERE=8;
+int HOURS_WASTED_HERE=9;
 char filename[256];
 sprintf(filename,"%s", config());
 char line[256];
@@ -64,8 +64,18 @@ while(fgets(line, 256, file) != NULL)
         }
 
 /* If all is found, run the rest please */
-/* NEEDED: SANITY CHECKING. You lazy bastard you. */
+/* DONE: SANITY CHECKING. You lazy bastard you. */
 
+/* Sanity checking, so ppl won't call me lazy */
+
+if ((set_hour < 0) || (set_hour > 24)){
+        printf("The trigger hour is wrong at %d and does not fall into the 0-24 range. Check cronton.conf\n", set_hour);
+        exit(1);
+}
+if ((set_minute < 0) || (set_minute > 59)){
+        printf("The trigger minute is wrong at %d and does not fall into the 0-59 range. Check cronton.conf\n", set_minute);
+        exit(1);
+}
 for (;;)
   {
 	time_t rawtime;
