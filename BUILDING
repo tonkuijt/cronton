@@ -1,0 +1,27 @@
+BUILDING
+
+Clone the git repo locally
+
+  git clone https://github.com/tonkuijt/cronton.git
+
+cd into the work dir
+
+  cd cronton
+
+Run make to build the binary and the configs
+
+  make
+
+After make is done, read the readme (Yeah, right) and edit the config file cronton.conf to suit your needs.
+
+Then, running the binary with
+
+  ./cronton
+
+starts the binary where it will sit and wait until the time has come to do stuff.
+
+If you'd like to start over, a
+
+  make clean
+
+removes all built files so you can start over.
