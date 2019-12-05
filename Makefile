@@ -47,3 +47,4 @@ clean:
 	rm -rf cronton
 	rm -rf cronton.conf
 	rm -rf task.sh
+	rm -rf readme
