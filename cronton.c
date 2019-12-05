@@ -2,6 +2,10 @@
 * 
 * This little thing checks if the time matches the wanted time.
 * If so, execute given command. Ugly, but works (ish)
+*
+* If you try to improve this code, please update the following:
+*
+* HOURS_WASTED_HERE++;
 */
 
 #include <stdio.h>
