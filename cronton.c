@@ -46,6 +46,7 @@ int main ()
 
 
 /* First, init ALL the variables! */
+int HOURS_WASTED_HERE=8;
 char filename[256];
 sprintf(filename,"%s", config());
 char line[256];
