@@ -12,6 +12,7 @@
 
 const char * config()
 {
+        /* Config file name is set but location isn't, lets check where it is */
         if (access("cronton.conf", F_OK) != -1 ){
                 return "./cronton.conf";
         } else if (access("/etc/cronton/cronton.conf", F_OK) != -1 ){
@@ -20,20 +21,27 @@ const char * config()
                 printf("Config file not found!\n");
                 exit(1);
         }
-        /* Nothing found, notify main process */
+        /* Nothing found, notify main process and DIE */
+        printf("Config not found, please check documentation.\n");
+        exit(1);
 }
 
 void delay(int number_of_seconds) 
 { 
+        /* CLOCKS_PER_SEC is a timed loop to determine how many cycles
+           the loop takes, thus calibrating the delay loop */
 	int milli_seconds = CLOCKS_PER_SEC * number_of_seconds; 
 	printf("Counting to %d...\n", milli_seconds);
 	clock_t start_time = clock(); 
+        //This loop should take 1 cycle per iteration and ALL CPU
 	while (clock() < start_time + milli_seconds)
         ; 
 }
 
 int main ()
 {
+
+
 /* First, init ALL the variables! */
 char filename[256];
 sprintf(filename,"%s", config());
@@ -47,39 +55,36 @@ file=fopen(filename, "r");
 int a = 1;
 
 /* Finding and using the config line */
-char time[256], command[256];
+char command[256], settime[256];
 while(fgets(line, 256, file) != NULL)
 	{
         linenum++;
         if(line[0] == '#')  continue; 
 
-                if(sscanf(line, "%s %s", time, command) != 2)
+                if(sscanf(line, "%s %s", settime, command) != 2)
                         {
                         fprintf(stderr, "Syntax error, line %d\n", linenum);
                         continue;
                         }
-		printf("Printing stuff %s %s\n", time, command);
-                set_hour = atoi(strtok(time, ":"));
+                set_hour = atoi(strtok(settime, ":"));
                 set_minute = atoi(strtok(NULL, ":"));
         }
 
 /* If all is found, run the rest please */
 /* NEEDED: SANITY CHECKING. You lazy bastard you. */
 
-while ( a == a )
+for (;;)
   {
-	time_t now;
-	struct tm *now_tm;
-	now = time(NULL);
-	now_tm = localtime(&now);
-	int hour = now_tm->tm_hour;
-	int minute = now_tm->tm_min;
+	time_t rawtime;
+        struct tm * timeinfo;
+        time (&rawtime);
+        timeinfo = localtime (&rawtime);
 	int trigger_hour=set_hour;
 	int trigger_minute=set_minute;
-	printf("Time is now %d:%d and set to %d:%d\n",hour, minute, trigger_hour, trigger_minute);
+        int hour = timeinfo->tm_hour;
+        int minute = timeinfo->tm_min;
 	if (( hour == trigger_hour ) & ( minute == trigger_minute)){
-		system("%s", command);
-		printf("Awwww jisssssss, we have ran!\n");
+		system(command);
 	} 
   delay(60);
   }
