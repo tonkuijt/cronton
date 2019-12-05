@@ -1,6 +1,7 @@
 # cronton
 cronton, the totally useless not-cron process to schedule one (1) task.
 Created because of a challenge. Yes, talking to you, Ries and Jor.
+
 TL;DR: See last line of this file
 
 This program checks the config file for one (1) task to do at a certain time,
