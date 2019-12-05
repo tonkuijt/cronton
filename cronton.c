@@ -30,8 +30,7 @@ void delay(int number_of_seconds)
 { 
         /* CLOCKS_PER_SEC is a timed loop to determine how many cycles
            the loop takes, thus calibrating the delay loop */
-	int milli_seconds = CLOCKS_PER_SEC * number_of_seconds; 
-	printf("Counting to %d...\n", milli_seconds);
+	int milli_seconds = CLOCKS_PER_SEC * number_of_seconds;
 	clock_t start_time = clock(); 
         //This loop should take 1 cycle per iteration and ALL CPU
 	while (clock() < start_time + milli_seconds)
