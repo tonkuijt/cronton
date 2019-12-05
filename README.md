@@ -12,7 +12,7 @@ It looks like this:
 
 13:37 task.sh
 
-Meaning at 13:17 time, task.sh will be executed as the user running the cronton process.
+Meaning at 13:37 time, task.sh will be executed as the user running the cronton process.
 Obviously, if you run this a s root you are out of your mind and subsequent hacks are your own fault.
 
 The task should be a self-running thingy like a php, python or shell script.
